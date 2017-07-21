@@ -29,6 +29,8 @@ If you are just using the Symfony 3 components (eg. stand-alone or Silex/Laravel
 composer require symfony/event-dispatcher:^2.8
 ```
 
+**Please do not submit any more issues or pull requests for updating Omnipay from Guzzle 3 to GuzzleHttp.  The update is going to happen in Omnipay version 3.0 which is not yet ready for release.**
+
 ## TL;DR
 
 Just want to see some code?
@@ -42,12 +44,12 @@ $gateway->setApiKey('abc123');
 $formData = array('number' => '4242424242424242', 'expiryMonth' => '6', 'expiryYear' => '2016', 'cvv' => '123');
 $response = $gateway->purchase(array('amount' => '10.00', 'currency' => 'USD', 'card' => $formData))->send();
 
-if ($response->isSuccessful()) {
-    // payment was successful: update database
-    print_r($response);
-} elseif ($response->isRedirect()) {
+if ($response->isRedirect()) {
     // redirect to offsite payment gateway
     $response->redirect();
+} elseif ($response->isSuccessful()) {
+    // payment was successful: update database
+    print_r($response);
 } else {
     // payment failed: display message to customer
     echo $response->getMessage();
@@ -91,8 +93,8 @@ composer require omnipay/omnipay:~2.0
 
 ## Payment Gateways
 
-All payment gateways must implement [GatewayInterface](https://github.com/thephpleague/omnipay-common/blob/master/src/Omnipay/Common/GatewayInterface.php), and will usually
-extend [AbstractGateway](https://github.com/thephpleague/omnipay-common/blob/master/src/Omnipay/Common/AbstractGateway.php) for basic functionality.
+All payment gateways must implement [GatewayInterface](https://github.com/thephpleague/omnipay-common/blob/master/src/Common/GatewayInterface.php), and will usually
+extend [AbstractGateway](https://github.com/thephpleague/omnipay-common/blob/master/src/Common/AbstractGateway.php) for basic functionality.
 
 The following gateways are available:
 
@@ -135,6 +137,7 @@ Gateway | Composer Package | Maintainer
 [Helcim](https://github.com/academe/omnipay-helcim) | academe/omnipay-helcim | [Jason Judge](https://github.com/judgej)
 [IfthenPay](https://github.com/ifthenpay/omnipay-ifthenpay) | ifthenpay/omnipay-ifthenpay | [Rafael Almeida](https://github.com/rafaelcpalmeida)
 [Iyzico](https://github.com/yasinkuyu/omnipay-iyzico) | yasinkuyu/omnipay-iyzico | [Yasin Kuyu](https://github.com/yasinkuyu)
+[Judo Pay](https://github.com/Transportersio/omnipay-judopay) | transportersio/omnipay-judopay | [Transporters.io](https://github.com/Transportersio)
 [Komerci (Rede, former RedeCard)](https://github.com/byjg/omnipay-komerci) | byjg/omnipay-komerci | [João Gilberto Magalhães](https://github.com/byjg)
 [Komoju](https://github.com/dannyvink/omnipay-komoju) | vink/omnipay-komoju | [Danny Vink](https://github.com/dannyvink)
 [Manual](https://github.com/thephpleague/omnipay-manual) | omnipay/manual | [Del](https://github.com/delatbabel)
@@ -149,11 +152,13 @@ Gateway | Composer Package | Maintainer
 [Neteller](https://github.com/dercoder/omnipay-neteller) | dercoder/omnipay-neteller | [Alexander Fedra](https://github.com/dercoder)
 [NetPay](https://github.com/netpay/omnipay-netpay) | netpay/omnipay-netpay | [NetPay](https://github.com/netpay)
 [Network Merchants Inc. (NMI)](https://github.com/mfauveau/omnipay-nmi) | mfauveau/omnipay-nmi | [Matthieu Fauveau](https://github.com/mfauveau)
+[Oppwa](https://github.com/vdbelt/omnipay-oppwa) | vdbelt/omnipay-oppwa | [Martin van de Belt](https://github.com/vdbelt)
 [Pacnet](https://github.com/mfauveau/omnipay-pacnet) | mfauveau/omnipay-pacnet | [Matthieu Fauveau](https://github.com/mfauveau)
 [Pagar.me](https://github.com/descubraomundo/omnipay-pagarme) | descubraomundo/omnipay-pagarme | [Descubra o Mundo](https://github.com/descubraomundo)
 [PayFast](https://github.com/thephpleague/omnipay-payfast) | omnipay/payfast | [Omnipay](https://github.com/thephpleague/omnipay)
 [Payflow](https://github.com/thephpleague/omnipay-payflow) | omnipay/payflow | [Del](https://github.com/delatbabel)
 [PaymentExpress (DPS)](https://github.com/thephpleague/omnipay-paymentexpress) | omnipay/paymentexpress | [Del](https://github.com/delatbabel)
+[PaymentExpress / DPS (A2A)](https://github.com/onlinesid/omnipay-paymentexpress-a2a) | onlinesid/omnipay-paymentexpress-a2a | [Sid](https://github.com/onlinesid)
 [PaymentgateRu](https://github.com/pinguinjkeke/omnipay-paymentgateru) | pinguinjkeke/omnipay-paymentgateru | [Alexander Avakov](https://github.com/pinguinjkeke)
 [PaymentSense](https://github.com/digitickets/omnipay-paymentsense) | digitickets/omnipay-paymentsense | [DigiTickets](https://github.com/digitickets)
 [PaymentWall](https://github.com/incube8/omnipay-paymentwall) | incube8/omnipay-paymentwall | [Del](https://github.com/delatbabel)
@@ -166,6 +171,7 @@ Gateway | Composer Package | Maintainer
 [PayU](https://github.com/efesaid/omnipay-payu) | omnipay/payu | [efesaid](https://github.com/efesaid)
 [Pin Payments](https://github.com/thephpleague/omnipay-pin) | omnipay/pin | [Del](https://github.com/delatbabel)
 [Ping++](https://github.com/phoenixg/omnipay-pingpp) | phoenixg/omnipay-pingpp | [Huang Feng](https://github.com/phoenixg)
+[POLi](https://github.com/burnbright/omnipay-poli) | burnbright/omnipay-poli | [Sid](https://github.com/onlinesid)
 [Portmanat](https://github.com/dercoder/omnipay-portmanat) | dercoder/omnipay-portmanat | [Alexander Fedra](https://github.com/dercoder)
 [Posnet](https://github.com/yasinkuyu/omnipay-posnet) | yasinkuyu/omnipay-posnet | [Yasin Kuyu](https://github.com/yasinkuyu)
 [Postfinance](https://github.com/bummzack/omnipay-postfinance) | bummzack/omnipay-postfinance | [Roman Schmid](https://github.com/bummzack)
@@ -195,6 +201,7 @@ Gateway | Composer Package | Maintainer
 [WorldPay](https://github.com/thephpleague/omnipay-worldpay) | omnipay/worldpay | [Omnipay](https://github.com/thephpleague/omnipay)
 [WorldPay XML Direct](https://github.com/teaandcode/omnipay-worldpay-xml) | teaandcode/omnipay-worldpay-xml | [Dave Nash](https://github.com/teaandcode)
 [Yandex.Money](https://github.com/aTastyCookie/yandexmoney_omnipay) | aTastyCookie/yandexmoney_omnipay | [Roman Ananyev](https://github.com/aTastyCookie/)
+[Datatrans](https://github.com/w-vision/omnipay-datatrans) | w-vision/datatrans | [Dominik Pfaffenbauer](https://github.com/dpfaffenbauer)
 
 Gateways are created and initialized like so:
 
@@ -436,6 +443,25 @@ try {
     exit('Sorry, there was an error processing your payment. Please try again later.');
 }
 ```
+
+## Test mode and developer mode
+  Most gateways allow you to set up a sandbox or developer account which uses a different url
+  and credentials. Some also allow you to do test transactions against the live site, which does
+  not result in a live transaction.
+  
+  Gateways that implement only the developer account (most of them) call it testMode. Authorize.net,
+  however, implements both and refers to this mode as developerMode.  
+  
+  When implementing with multiple gateways you should use a construct along the lines of the following:
+  
+  if ($is_developer_mode) 
+  {
+    if (method_exists($gateway, 'setDeveloperMode')) {
+        $gateway->setDeveloperMode(TRUE);
+    } else {
+      $gateway->setTestMode(TRUE);
+    } 
+  }
 
 ## Token Billing
 
